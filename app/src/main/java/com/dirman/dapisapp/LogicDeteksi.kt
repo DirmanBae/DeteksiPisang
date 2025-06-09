@@ -11,12 +11,12 @@ import java.nio.channels.FileChannel
 
 class LogicDeteksi(context: Context) {
     private val interpreter: Interpreter
-    private val labels = listOf("Daun Sehat", "Sigatoka", "Cordana", " Pestaliopsis")
+    private val labels = listOf("Daun Sehat", "Sigatoka", "Cordana", "Pestaliopsis")
     private val imageSize = 160
 
 
     init {
-        val assetFileDescriptor = context.assets.openFd("Banana_model.tflite")
+        val assetFileDescriptor = context.assets.openFd("BananaMDL.tflite")
         val fileInputStream = FileInputStream(assetFileDescriptor.fileDescriptor)
         val fileChannel = fileInputStream.channel
         val startOffset = assetFileDescriptor.startOffset
@@ -33,9 +33,9 @@ class LogicDeteksi(context: Context) {
         for (y in 0 until imageSize) {
             for (x in 0 until imageSize) {
                 val pixel = resizedBitmap.getPixel(x, y)
-                input.putFloat(((pixel shr 16 and 0xFF) / 160.0f))
-                input.putFloat(((pixel shr 8 and 0xFF) / 160.0f))
-                input.putFloat(((pixel and 0xFF) / 160.0f))
+                input.putFloat(((pixel shr 16 and 0xFF) / 255.0f))
+                input.putFloat(((pixel shr 8 and 0xFF) / 255.0f))
+                input.putFloat(((pixel and 0xFF) / 255.0f))
             }
         }
 
