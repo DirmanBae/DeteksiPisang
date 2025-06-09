@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/daun_bg"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/dapis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DapisApp"
+        android:layout_marginTop="80dp"
+        android:layout_marginHorizontal="40dp"
+        android:textSize="50dp"
+        android:textStyle="bold"
+        android:textColor="#FFC403"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aplikasi Pendeteksi penyakit daun Pisang"
+        android:textColor="#fff"
+        android:layout_below="@id/dapis"
+        android:textSize="25dp"
+        android:layout_marginHorizontal="40dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_border"
+        android:textColor="#fff"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:padding="15dp"
+        android:textSize="25dp"
+        android:layout_marginBottom="50dp"
+        android:layout_centerInParent="true"
+        android:text="START Apps">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+</RelativeLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="20dp"
+    android:background="@drawable/wave"
+    tools:context=".LoginActivity">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DAPIS Apps"
+            android:paddingTop="25dp"
+            android:textSize="50dp"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:gravity="center"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:text="Solusi Pintar Untuk Daun Pisang Yang Prima"/>
+    </LinearLayout>
+<!--form login-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:gravity="center"
+        android:layout_margin="40dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/bg_form"
+        android:layout_centerHorizontal="true"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LOGIN"
+            android:textStyle="bold"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:textSize="30dp"/>
+        <EditText
+            android:paddingTop="40dp"
+            android:id="@+id/idEmail"
+            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email" />
+        <EditText
+            android:id="@+id/idPassword"
+            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLogin"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="MASUK"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:textColor="#fff"
+            android:padding="15dp"
+            android:background="@drawable/button_border">
+        </androidx.appcompat.widget.AppCompatButton>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="8dp"
+                android:text="Belum punya akun ?"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daftar"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+<!--    end form login-->
+
+</RelativeLayout>
