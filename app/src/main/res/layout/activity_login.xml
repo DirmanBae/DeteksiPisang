@@ -57,13 +57,13 @@
             android:textSize="30dp"/>
         <EditText
             android:paddingTop="40dp"
-            android:id="@+id/idEmail"
+            android:id="@+id/etEmailLogin"
             android:textSize="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email" />
         <EditText
-            android:id="@+id/idPassword"
+            android:id="@+id/etPassLogin"
             android:textSize="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

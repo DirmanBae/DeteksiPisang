@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "982470944659",
+    "firebase_url": "https://bananadetection-default-rtdb.firebaseio.com",
+    "project_id": "bananadetection",
+    "storage_bucket": "bananadetection.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982470944659:android:5c37295bb5db9b697caa66",
+        "android_client_info": {
+          "package_name": "com.dirman.dapisapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgnMnStVlmb1JdRU417BWM93F31lUdLbI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

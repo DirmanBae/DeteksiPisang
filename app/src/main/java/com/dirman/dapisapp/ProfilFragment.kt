@@ -5,6 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +34,37 @@ class ProfilFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val auth = FirebaseAuth.getInstance()
+        val uid = auth.currentUser?.uid
+
+        val database = FirebaseDatabase.getInstance()
+        val ref = database.getReference("users").child(uid!!)
+
+        val txtProfileName = view.findViewById<TextView>(R.id.txtProfileName)
+        val txtProfileEmail = view.findViewById<TextView>(R.id.txtProfileEmail)
+        val txtProfileLevel = view.findViewById<TextView>(R.id.txtProfileLevel)
+
+        ref.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val name = snapshot.child("nama").getValue(String::class.java)
+                val email = snapshot.child("email").getValue(String::class.java)
+                val level = snapshot.child("level").getValue(String::class.java)
+
+                txtProfileName.text = name ?: "Unknown"
+                txtProfileEmail.text = email ?: "Unknown"
+                txtProfileLevel.text = level ?: "Unknown"
+
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "Gagal muat data: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+
     }
 
     override fun onCreateView(

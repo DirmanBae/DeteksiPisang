@@ -49,19 +49,19 @@
             android:textSize="30dp"/>
         <EditText
             android:paddingTop="40dp"
-            android:id="@+id/idNama"
+            android:id="@+id/etName"
             android:textSize="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nama Lengkap" />
         <EditText
-            android:id="@+id/idEmail"
+            android:id="@+id/etEmail"
             android:textSize="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email" />
         <EditText
-            android:id="@+id/idPassword"
+            android:id="@+id/etPass"
             android:textSize="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
