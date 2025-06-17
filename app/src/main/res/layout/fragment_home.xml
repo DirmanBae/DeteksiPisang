@@ -9,7 +9,7 @@
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Ketahui Kendidi daun dengan cepat"
+        android:text="Ketahui Sendiri daun dengan cepat"
         android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"

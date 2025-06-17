@@ -2,29 +2,22 @@ package com.dirman.dapisapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class LoginActivity : AppCompatActivity() {
+class RegistActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_regist)
 
-        val btnDaftar = findViewById<TextView>(R.id.btnDaftar)
-        val btnLogin = findViewById<Button>(R.id.btnLogin)
+        val btnLogin = findViewById<TextView>(R.id.btnLogin)
 
         btnLogin.setOnClickListener(){
-            val i = Intent(this, HomeActivity::class.java)
-            startActivity(i)
-        }
-
-        btnDaftar.setOnClickListener(){
-            val i = Intent(this, RegistActivity::class.java)
+            val i = Intent(this, LoginActivity::class.java)
             startActivity(i)
         }
     }

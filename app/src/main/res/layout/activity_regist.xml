@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:paddingTop="20dp"
     android:background="@drawable/wave"
-    tools:context=".LoginActivity">
+    tools:context=".RegistActivity">
 
     <LinearLayout
         android:id="@+id/header"
@@ -26,16 +26,8 @@
             android:gravity="center"
             android:textColor="#fff"
             android:textStyle="bold"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:gravity="center"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:text="Solusi Pintar Untuk Daun Pisang Yang Prima"/>
     </LinearLayout>
-<!--form login-->
+    <!--form login-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,13 +42,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="LOGIN"
+            android:text="Daftar Akun Baru"
             android:textStyle="bold"
             android:layout_marginTop="40dp"
             android:gravity="center"
             android:textSize="30dp"/>
         <EditText
             android:paddingTop="40dp"
+            android:id="@+id/idNama"
+            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nama Lengkap" />
+        <EditText
             android:id="@+id/idEmail"
             android:textSize="20dp"
             android:layout_width="match_parent"
@@ -69,10 +67,10 @@
             android:layout_height="wrap_content"
             android:hint="Password" />
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnRegist"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="MASUK"
+            android:text="REgist"
             android:layout_marginTop="20dp"
             android:textStyle="bold"
             android:textSize="18dp"
@@ -90,9 +88,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="8dp"
-                android:text="Belum punya akun ?"/>
+                android:text="Sudah punya akun ?"/>
             <TextView
-                android:id="@+id/btnDaftar"
+                android:id="@+id/btnLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Daftar"
@@ -101,6 +99,6 @@
         </LinearLayout>
 
     </LinearLayout>
-<!--    end form login-->
+    <!--    end form login-->
 
 </RelativeLayout>
