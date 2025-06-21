@@ -1,7 +1,6 @@
 package com.dirman.dapisapp
 
 import android.content.Context
-import android.content.res.AssetManager
 import android.graphics.Bitmap
 import org.tensorflow.lite.Interpreter
 import java.io.FileInputStream
@@ -14,7 +13,6 @@ class LogicDeteksi(context: Context) {
     private val labels = listOf("Daun Sehat", "Sigatoka", "Cordana", "Pestaliopsis")
     private val imageSize = 160
 
-
     init {
         val assetFileDescriptor = context.assets.openFd("BananaMDL.tflite")
         val fileInputStream = FileInputStream(assetFileDescriptor.fileDescriptor)
@@ -25,7 +23,8 @@ class LogicDeteksi(context: Context) {
         interpreter = Interpreter(model)
     }
 
-    fun classify(bitmap: Bitmap): String {
+    // Fungsi baru: mengembalikan Pair<String, Float>
+    fun classify(bitmap: Bitmap): Pair<String, Float> {
         val resizedBitmap = Bitmap.createScaledBitmap(bitmap, imageSize, imageSize, true)
         val input = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3)
         input.order(ByteOrder.nativeOrder())
@@ -43,6 +42,12 @@ class LogicDeteksi(context: Context) {
         interpreter.run(input, output)
 
         val maxIdx = output[0].indices.maxByOrNull { output[0][it] } ?: -1
-        return if (maxIdx != -1) "${labels[maxIdx]} (Akurasi: ${"%.2f".format(output[0][maxIdx] * 100)}%)" else "Tidak dikenali"
+        return if (maxIdx != -1) {
+            val label = labels[maxIdx]
+            val confidence = output[0][maxIdx] * 100f
+            Pair(label, confidence)
+        } else {
+            Pair("Tidak dikenali", 0f)
+        }
     }
 }

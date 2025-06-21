@@ -27,6 +27,9 @@ import java.io.IOException
 import java.util.Date
 import java.util.Locale
 import android.Manifest
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,7 +48,7 @@ class HomeFragment : Fragment() {
     private var imageUri: Uri? = null
     private lateinit var btnDetect: Button // Deklarasi Button Deteksi
     private lateinit var tvDetectionResult: TextView // Deklarasi TextView Hasil Deteksi
-    val labels = listOf("Daun Sehat", "Sigatoka", "Cordana", " Pestaliopsis")
+    val labels = listOf("Daun Sehat", "Sigatoka", "Cordana", "Pestaliopsis")
 
 
     // ActivityResultLauncher untuk Gallery
@@ -54,25 +57,23 @@ class HomeFragment : Fragment() {
             if (result.resultCode == RESULT_OK) {
                 val selectedImageUri: Uri? = result.data?.data
                 selectedImageUri?.let {
+                    imageUri = it // ✅ Simpan URI-nya
                     ivSelectedImage.setImageURI(it)
                 } ?: Toast.makeText(requireContext(), "Gagal memilih gambar dari galeri.", Toast.LENGTH_SHORT).show()
             }
         }
+
 
     // ActivityResultLauncher untuk Camera
     private val cameraLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 imageUri?.let { uri ->
-                    val file = File(uri.path ?: "")
-                    if (file.exists()) {
-                        ivSelectedImage.setImageURI(uri)
-                    } else {
-                        Toast.makeText(requireContext(), "File tidak ditemukan: ${uri.path}", Toast.LENGTH_SHORT).show()
-                    }
+                    ivSelectedImage.setImageURI(uri)
                 } ?: Toast.makeText(requireContext(), "Gagal mengambil gambar dari kamera.", Toast.LENGTH_SHORT).show()
             }
         }
+
 
     // ActivityResultLauncher untuk Request Permissions
     private val requestPermissionLauncher: ActivityResultLauncher<Array<String>> =
@@ -125,8 +126,12 @@ class HomeFragment : Fragment() {
             val drawable = ivSelectedImage.drawable
             if (drawable != null && drawable is BitmapDrawable) {
                 val bitmap = drawable.bitmap
-                val result = classifier.classify(bitmap)
-                tvResult.text = result
+                val (penyakit, akurasi) = classifier.classify(bitmap)
+                val hasilAkhir = "$penyakit\nAkurasi: ${"%.2f".format(akurasi)}%"
+                tvResult.text = hasilAkhir
+
+//                menyimpan hasil deteksi kedalam databse
+                simpanHasilKeFirebase(penyakit, akurasi)
             } else {
                 Toast.makeText(requireContext(), "Gambar belum dipilih!", Toast.LENGTH_SHORT).show()
             }
@@ -147,6 +152,52 @@ class HomeFragment : Fragment() {
             }
             .show()
     }
+
+    private fun simpanHasilKeFirebase(hasilDeteksi: String, akurasi: Float) {
+        val auth = FirebaseAuth.getInstance()
+        val uid = auth.currentUser?.uid
+
+        if (uid == null) {
+            Toast.makeText(requireContext(), "User belum login", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val userRef = FirebaseDatabase.getInstance().getReference("users").child(uid)
+        userRef.get().addOnSuccessListener { snapshot ->
+            val namaUser = snapshot.child("nama").getValue(String::class.java) ?: "Pengguna"
+            val tanggal = SimpleDateFormat("dd-MM-yyyy / HH:mm:ss", Locale.getDefault()).format(Date())
+            val idHistory = "HTR${System.currentTimeMillis()}"
+
+            val imageUrl = imageUri?.toString() ?: "kosong" // URI lokal (opsional)
+
+            val data = mapOf(
+                "gambar" to imageUrl,
+                "hasil_deteksi" to hasilDeteksi,
+                "akurasi" to "%.2f".format(akurasi),
+                "id_user" to uid,
+                "nama" to namaUser,
+                "tgl" to tanggal,
+                "catatan_penyuluh" to "tidak ada catatan"
+            )
+
+            FirebaseDatabase.getInstance().getReference("history").child(idHistory)
+                .setValue(data)
+                .addOnSuccessListener {
+                    Toast.makeText(requireContext(), "Hasil deteksi berhasil disimpan", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(requireContext(), "Gagal menyimpan data", Toast.LENGTH_SHORT).show()
+                }
+
+        }.addOnFailureListener {
+            Toast.makeText(requireContext(), "Gagal mengambil data pengguna", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+
+
+
 
     private fun checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {

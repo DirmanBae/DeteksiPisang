@@ -1,5 +1,6 @@
 package com.dirman.dapisapp
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -48,8 +49,10 @@ class ProfilFragment : Fragment() {
         val txtProfileName = view.findViewById<TextView>(R.id.txtProfileName)
         val txtProfileEmail = view.findViewById<TextView>(R.id.txtProfileEmail)
         val txtProfileLevel = view.findViewById<TextView>(R.id.txtProfileLevel)
+        val btnEditProfil = view.findViewById<View>(R.id.btnEditProfil)
 
-        ref.addListenerForSingleValueEvent(object : ValueEventListener{
+        // Tampilkan data
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val name = snapshot.child("nama").getValue(String::class.java)
                 val email = snapshot.child("email").getValue(String::class.java)
@@ -58,14 +61,53 @@ class ProfilFragment : Fragment() {
                 txtProfileName.text = name ?: "Unknown"
                 txtProfileEmail.text = email ?: "Unknown"
                 txtProfileLevel.text = level ?: "Unknown"
-
             }
+
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(context, "Gagal muat data: ${error.message}", Toast.LENGTH_SHORT).show()
             }
         })
 
+        // Fungsi Edit Profil
+        btnEditProfil.setOnClickListener {
+            val currentName = txtProfileName.text.toString()
+            val currentEmail = txtProfileEmail.text.toString()
+
+            val inputView = layoutInflater.inflate(R.layout.dialog_edit_profile, null)
+            val etNama = inputView.findViewById<TextView>(R.id.etNama)
+            val etEmail = inputView.findViewById<TextView>(R.id.etEmail)
+
+            etNama.text = currentName
+            etEmail.text = currentEmail
+
+            AlertDialog.Builder(requireContext())
+                .setTitle("Edit Profil")
+                .setView(inputView)
+                .setPositiveButton("Simpan") { _, _ ->
+                    val newName = etNama.text.toString().trim()
+                    val newEmail = etEmail.text.toString().trim()
+
+                    if (newName.isNotEmpty() && newEmail.isNotEmpty()) {
+                        val updates = mapOf(
+                            "nama" to newName,
+                            "email" to newEmail
+                        )
+                        ref.updateChildren(updates).addOnSuccessListener {
+                            txtProfileName.text = newName
+                            txtProfileEmail.text = newEmail
+                            Toast.makeText(requireContext(), "Profil diperbarui", Toast.LENGTH_SHORT).show()
+                        }.addOnFailureListener {
+                            Toast.makeText(requireContext(), "Gagal memperbarui profil", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "Nama dan email tidak boleh kosong", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .setNegativeButton("Batal", null)
+                .show()
+        }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
